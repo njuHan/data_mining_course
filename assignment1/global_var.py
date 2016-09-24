@@ -6,8 +6,10 @@ Created on Fri Sep 23 16:32:17 2016
 """
 
 ALL_FILE_NUM = 0  
-DOC_LIST = []
+DOC_NAME_LIST = []
 WORD_LIST = {}
+CSR_MATRIX = []
+TFIDF_MATRIX = []
 
 STOP_WORD_LIST = ["a","b","c","d","e","f","g","h","i","j","k","l",
 		"m","n","o","p","q","r","s","t","u","v","w","x","y","z",

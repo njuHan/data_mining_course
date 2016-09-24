@@ -318,25 +318,43 @@ class PorterStemmer:
         self.step5()
         return self.b[self.k0:self.k+1]
 
+# line must end with '\n' 
+def porter_stemmer(line):
+    p = PorterStemmer()
+    output = ''
+    word = ''
+    for c in line:
+        if c.isalpha():
+            word += c.lower()
+        else:
+            if word:
+                output += p.stem(word, 0,len(word)-1)
+                word = ''
+            output += c.lower()
+    print (output)
 
 if __name__ == '__main__':
-    p = PorterStemmer()
-    f = 'test_file.txt'
-    print(f)
-    infile = open(f, 'r')
-    while 1:
-        output = ''
-        word = ''
-        line = infile.readline()
-        if line == '':
-            break
-        for c in line:
-            if c.isalpha():
-                word += c.lower()
-            else:
-                if word:
-                    output += p.stem(word, 0,len(word)-1)
-                    word = ''
-                output += c.lower()
-        print (output),
-    infile.close()
+    line = 'We are students\n'
+    porter_stemmer(line)    
+    
+    
+#    p = PorterStemmer()
+#    f = 'test_file.txt'
+#    print(f)
+#    infile = open(f, 'r')
+#    while 1:
+#        output = ''
+#        word = ''
+#        line = infile.readline()
+#        if line == '':
+#            break
+#        for c in line:
+#            if c.isalpha():
+#                word += c.lower()
+#            else:
+#                if word:
+#                    output += p.stem(word, 0,len(word)-1)
+#                    word = ''
+#                output += c.lower()
+#        print (output),
+#    infile.close()

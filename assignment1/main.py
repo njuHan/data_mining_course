@@ -25,29 +25,13 @@ def process_doc(doc):
     return
   
 if __name__ == '__main__':  
-#    get_doc_path('./test') 
-#    print(remove_stopword('111'))
-#    print(glv.DOC_LIST)
-#    with open(glv.DOC_LIST[0], 'r' , encoding='utf-8') as f:
-#        print(f.read())
-    docs = [["hello", "world", "hello"], ["goodbye", "cruel", "world","cruel", "world", "world", "world"]]
-    indptr = [0]
-    indices = []
-    data = []
-    vocabulary = {}
-    for d in docs:
-        for term in d:
-            index = vocabulary.setdefault(term, len(vocabulary))
-            indices.append(index)
-            data.append(1)
-        indptr.append(len(indices))
-    mat = sp.sparse.csr_matrix((data, indices, indptr), dtype=int)
-    print(mat)
-    print(mat.toarray())
-   
-    print(vocabulary.get('world'))
-    col_index = vocabulary.get('world')
-    print(mat.toarray()[1,col_index])
+    get_doc_path('./test') 
+    print(remove_stopword('111'))
+    print(glv.DOC_NAME_LIST)
+    with open(glv.DOC_NAME_LIST[0], 'r' , encoding='utf-8') as f:
+        print(f.read())
+
+
     
 
     
