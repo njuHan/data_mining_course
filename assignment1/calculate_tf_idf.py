@@ -25,55 +25,55 @@ def calculate_tf_idf(docs):
             indices.append(index)
             data.append(1)
         indptr.append(len(indices))
-    glv.CSR_MATRIX = sp.sparse.csr_matrix((data, indices, indptr), dtype=np.double)
+    glv.CSR_MATRIX = sp.sparse.csr_matrix((data, indices, indptr), dtype=np.float)
+    glv.CSR_MATRIX.eliminate_zeros()
     glv.CSR_MATRIX.sum_duplicates()
+    glv.CSR_MATRIX.multiply(2)
     
+   
     
-    #单词计数矩阵，单词在文中出现次数
-    count_array =  glv.CSR_MATRIX.toarray()
-    #print(count_array)
-    # m行 n列
-    m,n = count_array.shape
+    #sum col 包含该列单词的文档总数
+    logical_mat = glv.CSR_MATRIX.power(0)
+    sum_col = logical_mat.sum(axis=0)
+    #print('sum col:\n',sum_col)
     
-    #行求和矩阵， 每篇文章的单词总数
-    row_sum_array = glv.CSR_MATRIX.toarray()
-    temp2 = np.sum(row_sum_array,axis=1)
-    for i in range(m):
-        row_sum_array[i,:] = temp2[i]
-    print('row sum\n',row_sum_array)
+    # sum row 文档单词总数
+    sum_row = glv.CSR_MATRIX.sum(axis=1)
+    #print('sum row:\n',sum_row)
     
-    #列逻辑求和， 具有该列单词的文章总数
-    col_sum_array = glv.CSR_MATRIX.toarray()
-    bool_array = col_sum_array>=1
-    temp3 = np.sum(bool_array,axis=0)
-    for i in range(n):
-        col_sum_array[:,i] = temp3[i]
+    #tf
+    tf = sp.sparse.csr_matrix(glv.CSR_MATRIX.multiply(1/sum_row))
+    #print('tf:\n',tf.toarray())    
     
-    print('col sum\n',col_sum_array)
-    print('log:\n',np.log(col_sum_array))
+    #tf idf
+    #glv.ALL_FILE_NUM = 2
+    #print('idf :\n',glv.ALL_FILE_NUM/sum_col)
     
-    #文件总数矩阵
-    file_num_array = glv.CSR_MATRIX.toarray()
-    file_num_array[:] = glv.ALL_FILE_NUM
+    #print('tf*idf:\n', tf.multiply(glv.ALL_FILE_NUM/sum_col))
     
-    #tf 
-    tf_array = count_array/row_sum_array
-    print('tf array\n',tf_array)
+    #print('idf log:\n',np.log(glv.ALL_FILE_NUM/sum_col))
+    tf_idf = tf.multiply(np.log(glv.ALL_FILE_NUM/sum_col))
+    #print('tf idf:\n', tf_idf)
+    glv.TFIDF_MATRIX = sp.sparse.csr_matrix(tf_idf) 
+    #print(glv.TFIDF_MATRIX)
     
-    #idf
-    idf_array = np.log(m/col_sum_array)
-    print('idf array\n',idf_array)    
-    
-    #tf idf 矩阵
-    tfidf_array = tf_array*idf_array
-    glv.TFIDF_MATRIX = sp.sparse.csr_matrix(tfidf_array)
-    print('tf idf: \n',tfidf_array)
     return
 
 
 if __name__ == '__main__':  
     docs = [["hello", "world", "hello"], ["goodbye", "cruel", "world","cruel", "world", "world", "world"]]
+    glv.ALL_FILE_NUM = len(docs)
     calculate_tf_idf(docs)
-    print(glv.CSR_MATRIX.toarray())
-    print(glv.WORD_LIST)
+    print(glv.TFIDF_MATRIX)
     
+
+
+#  (0, 0)        4.60517018599
+#  (0, 1)        1.60943791243
+#  (1, 1)        6.43775164974
+#  (1, 2)        2.30258509299
+#  (1, 3)        4.60517018599
+
+#(0, 0)        0.462098120373
+#  (1, 2)        0.0990210257943
+#  (1, 3)        0.198042051589

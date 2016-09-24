@@ -52,3 +52,5 @@ ICML/
 test/
 *.pyc
 __pycache__/
+.spyderproject
+.spyderworkspace

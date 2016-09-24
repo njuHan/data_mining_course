@@ -51,6 +51,7 @@ def process_docs():
     docs = []
     for e in glv.DOC_PATH_LIST:
         doc = process_doc(e)
+        print('文章词数:',len(doc))
         #print(doc)
         docs.append(doc)
     return docs
