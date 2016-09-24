@@ -8,14 +8,20 @@ import global_var as glv
 import scipy as sp
 import numpy as np
 
+
+# 输入为所有文档的单词数组
+#例如3个文档： docs = [["hello", "world", "hello"], 
+#            ["goodbye", "cruel", "world","cruel", "world", "world", "world"]]
 def calculate_tf_idf(docs):
+    
+    #construct csr matrix
     indptr = [0]
     indices = []
     data = []
-    vocabulary = {}
+    glv.WORD_LIST = {}
     for d in docs:
         for term in d:
-            index = vocabulary.setdefault(term, len(vocabulary))
+            index = glv.WORD_LIST.setdefault(term, len(glv.WORD_LIST))
             indices.append(index)
             data.append(1)
         indptr.append(len(indices))
@@ -25,8 +31,7 @@ def calculate_tf_idf(docs):
     
     #单词计数矩阵，单词在文中出现次数
     count_array =  glv.CSR_MATRIX.toarray()
-    print(count_array)
-    
+    #print(count_array)
     # m行 n列
     m,n = count_array.shape
     
@@ -43,7 +48,9 @@ def calculate_tf_idf(docs):
     temp3 = np.sum(bool_array,axis=0)
     for i in range(n):
         col_sum_array[:,i] = temp3[i]
+    
     print('col sum\n',col_sum_array)
+    print('log:\n',np.log(col_sum_array))
     
     #文件总数矩阵
     file_num_array = glv.CSR_MATRIX.toarray()
@@ -54,18 +61,19 @@ def calculate_tf_idf(docs):
     print('tf array\n',tf_array)
     
     #idf
-    idf_array = m/col_sum_array
+    idf_array = np.log(m/col_sum_array)
     print('idf array\n',idf_array)    
     
     #tf idf 矩阵
     tfidf_array = tf_array*idf_array
     glv.TFIDF_MATRIX = sp.sparse.csr_matrix(tfidf_array)
-    print(tfidf_array)
+    print('tf idf: \n',tfidf_array)
     return
 
 
 if __name__ == '__main__':  
     docs = [["hello", "world", "hello"], ["goodbye", "cruel", "world","cruel", "world", "world", "world"]]
     calculate_tf_idf(docs)
-    print(glv.TFIDF_MATRIX)
+    print(glv.CSR_MATRIX.toarray())
+    print(glv.WORD_LIST)
     

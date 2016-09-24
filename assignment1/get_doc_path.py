@@ -38,4 +38,7 @@ def get_doc_path(path):
         filepath = path + '/' + fl
         #print (filepath) 
         glv.ALL_FILE_NUM = glv.ALL_FILE_NUM + 1  
-        glv.DOC_NAME_LIST.append(filepath)
+        glv.DOC_PATH_LIST.append(filepath)
+        
+        
+        

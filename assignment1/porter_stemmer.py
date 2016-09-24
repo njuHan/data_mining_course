@@ -4,7 +4,7 @@ Created on Fri Sep 23 09:44:30 2016
 
 @author: han
 """
-
+import re
 
 class PorterStemmer:
 
@@ -319,7 +319,7 @@ class PorterStemmer:
         return self.b[self.k0:self.k+1]
 
 # line must end with '\n' 
-def porter_stemmer(line):
+def line_porter_stemmer(line):
     p = PorterStemmer()
     output = ''
     word = ''
@@ -331,11 +331,21 @@ def porter_stemmer(line):
                 output += p.stem(word, 0,len(word)-1)
                 word = ''
             output += c.lower()
-    print (output)
+    #print (output)
+    return output
+
+def porter_stemmer(word):
+    p = PorterStemmer()
+    output = p.stem(word.lower(), 0,len(word)-1)
+    return output
 
 if __name__ == '__main__':
-    line = 'We are students\n'
-    porter_stemmer(line)    
+    line = 'Pumas are large, cat-like animals which are found in America.'
+    print(line_porter_stemmer(line))
+    raw_words= re.findall("[\w-]{3,}",line) 
+    for e in raw_words:
+        print(e)
+        print(porter_stemmer(e))    
     
     
 #    p = PorterStemmer()
