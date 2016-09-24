@@ -50,3 +50,5 @@ Temporary Items
 *test_*
 ICML/
 test/
+*.pyc
+__pycache__/
