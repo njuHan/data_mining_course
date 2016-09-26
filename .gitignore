@@ -54,3 +54,4 @@ test/
 __pycache__/
 .spyderproject
 .spyderworkspace
+test.*

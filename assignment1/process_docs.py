@@ -49,8 +49,11 @@ def process_doc(doc_path):
  
 def process_docs():
     docs = []
+    i = 0
     for e in glv.DOC_PATH_LIST:
         doc = process_doc(e)
+        print('第',i,'篇文章')
+        i = i+1
         print('文章词数:',len(doc))
         #print(doc)
         docs.append(doc)

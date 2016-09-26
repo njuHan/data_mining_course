@@ -7,7 +7,8 @@ Created on Fri Sep 23 16:32:17 2016
 
 ALL_FILE_NUM = 0  
 DOC_PATH_LIST = []
-WORD_LIST = {}
+WORD_DIC = {}
+WORD_LIST = []
 CSR_MATRIX = []
 TFIDF_MATRIX = []
 
