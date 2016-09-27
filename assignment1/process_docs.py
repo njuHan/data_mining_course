@@ -21,8 +21,9 @@ def get_words(line):
     #长度大于2，由 字母 下划线 中划线组成
     raw_words= re.findall("[\w-]{3,}",line)    
 
-    #remove stop words
+    #to lower and remove stop words
     for w in raw_words:
+        w =  w.lower()
         if is_stopword(w)==False:
             words.append(w)
             

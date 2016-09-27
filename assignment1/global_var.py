@@ -6,11 +6,11 @@ Created on Fri Sep 23 16:32:17 2016
 """
 
 ALL_FILE_NUM = 0  
-DOC_PATH_LIST = []
-WORD_DIC = {}
-WORD_LIST = []
-CSR_MATRIX = []
-TFIDF_MATRIX = []
+DOC_PATH_LIST = [] #文档路径
+WORD_DIC = {} #记录单词及其下标
+WORD_LIST = [] #按下标排序的单词列表
+CSR_MATRIX = []  #term-doc 行稀疏矩阵
+TFIDF_MATRIX = [] #tf idf 行稀疏矩阵
 
 STOP_WORD_LIST = ["a","b","c","d","e","f","g","h","i","j","k","l",
 		"m","n","o","p","q","r","s","t","u","v","w","x","y","z",

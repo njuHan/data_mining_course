@@ -336,7 +336,7 @@ def line_porter_stemmer(line):
 
 def porter_stemmer(word):
     p = PorterStemmer()
-    output = p.stem(word.lower(), 0,len(word)-1)
+    output = p.stem(word, 0,len(word)-1)
     return output
 
 if __name__ == '__main__':
