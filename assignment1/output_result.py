@@ -14,12 +14,15 @@ def output_result():
     glv.WORD_LIST = [0 for x in range(0, n)]    
     for k, v in glv.WORD_DIC.items():
         glv.WORD_LIST[v] = str(v)+':'+k
+        
+    outfile = open('word_index.txt','w+',encoding='utf-8')
+    outfile.writelines(','.join(glv.WORD_LIST)+'\n')
+    outfile.close()  
     
     result = []
     # 文件夹 7 的结果
     result_7 = []
-    result.append(','.join(glv.WORD_LIST)+'\n')
-    result_7.append(','.join(glv.WORD_LIST)+'\n')
+   
     for i in range(m):
         temp_array = glv.TFIDF_MATRIX.getrow(i).toarray()[0]
         line = process_array(temp_array)
@@ -31,7 +34,7 @@ def output_result():
     outfile.writelines(result)
     outfile.close()
     
-    outfile = open('result_7.txt','w+',encoding='utf-8')
+    outfile = open('result.txt','w+',encoding='utf-8')
     outfile.writelines(result_7)
     outfile.close()
         
