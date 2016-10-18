@@ -120,7 +120,10 @@ def con_knn_wetgraph(data_mat,knn):
     return wet_graph, row_size
 
 # 构建 size x size 的对称距离矩阵
-def con_dist_mat(wet_graph, size):
+def con_dist_mat(train_file, test_file):
+    
+    data_mat,train_labels,test_labels = merge_data(train_file, test_file)
+    wet_graph,size= con_knn_wetgraph(data_mat,knn)
     
     dist_mat = []
     for i in range(size):
@@ -129,7 +132,7 @@ def con_dist_mat(wet_graph, size):
         
     dist_mat = dist_mat.reshape(size,size)
     
-    return dist_mat
+    return dist_mat,train_labels, test_labels
     
 
 def MDS(dist_mat, k):
@@ -173,42 +176,44 @@ def MDS(dist_mat, k):
     output = (k_eigvects * diag**0.5)
     return output    
 
-def isomap_project(knn, k, train_file, test_file):
+def isomap_project(knn, k, dist_mat,train_labels, test_labels):
     
-    data_mat,train_labels,test_labels = merge_data(train_file, test_file)
-    wg,size= con_knn_wetgraph(data_mat,knn)
-    dist_mat = con_dist_mat(wg,size)
-    
+    # 在该函数外求出 距离矩阵 dist_mat，
+    #对于不同的K值，就只需计算一次 dist_mat 
     x = MDS(dist_mat, k)
-    
     #classify
     train_mat = x[0:train_labels.shape[0],:]
     test_mat = x[train_labels.shape[0]:, :]
-    
     classify(train_mat,train_labels, test_mat, test_labels)
 
 if __name__ == '__main__': 
+
+    #最近邻取10个
+    knn=10    
+    
     train_file = 'sonar-train.txt'
     test_file = 'sonar-test.txt'
-    knn=10
     print('-----sonar------')
+    dist_mat,train_labels, test_labels = con_dist_mat(train_file, test_file)
     print('k=10:')
-    isomap_project(knn, 10, train_file, test_file)
+    isomap_project(knn, 10,dist_mat,train_labels, test_labels)
     print('k=20:')
-    isomap_project(knn, 20, train_file, test_file)
+    isomap_project(knn, 20,dist_mat,train_labels, test_labels)
     print('k=30:')
-    isomap_project(knn, 30, train_file, test_file)
+    isomap_project(knn, 30,dist_mat,train_labels, test_labels)
+    
+    
     
     train_file = 'splice-train.txt'
     test_file = 'splice-test.txt'
-    knn=10
     print('-----splice------')
+    dist_mat,train_labels, test_labels = con_dist_mat(train_file, test_file)
     print('k=10:')
-    isomap_project(knn, 10, train_file, test_file)
+    isomap_project(knn, 10,dist_mat,train_labels, test_labels)
     print('k=20:')
-    isomap_project(knn, 20, train_file, test_file)
+    isomap_project(knn, 20,dist_mat,train_labels, test_labels)
     print('k=30:')
-    isomap_project(knn, 30, train_file, test_file)
+    isomap_project(knn, 30,dist_mat,train_labels, test_labels)
     
     
 '''    
