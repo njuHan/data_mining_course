@@ -134,7 +134,7 @@ def con_dist_mat(train_file, test_file):
     
     return dist_mat,train_labels, test_labels
     
-
+#算法按照《机器学习》周志华，中的MDS实现
 def MDS(dist_mat, k):
     m = dist_mat.shape[0] 
     disti2 = []
