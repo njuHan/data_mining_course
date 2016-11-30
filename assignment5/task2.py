@@ -57,7 +57,7 @@ def evaluate(train_mat, train_labels, d):
     
     
 
-def adboost_train(feature_mat, labels, itnum=10):
+def adaboost_train(feature_mat, labels, itnum=10):
 
       
     classify_list = []
@@ -85,7 +85,7 @@ def adboost_train(feature_mat, labels, itnum=10):
     
     return classify_list
     
-def adboost_classify(feature, classify_list):
+def adaboost_classify(feature, classify_list):
     # classify = (dic_min, dic_max, minlabel_num, maxlabel_num, alpha )
     # naivebayes_classify(features, dic_min, dic_max, minlabel_num, maxlabel_num):
     label_sum = 0
@@ -107,12 +107,12 @@ def adboost_classify(feature, classify_list):
 def classify(test_mat, test_labels, train_mat, train_labels):
     
 
-    classify_list = adboost_train(train_mat, train_labels)
+    classify_list = adaboost_train(train_mat, train_labels)
     
     test_size = len(test_labels)
     result_labels = np.zeros(test_size)
     for i in range(test_size):
-        result_labels[i] = adboost_classify(test_mat[i], classify_list)
+        result_labels[i] = adaboost_classify(test_mat[i], classify_list)
         
     
     result = result_labels - test_labels
@@ -138,20 +138,23 @@ def ten_fold_cross_validation(feature_mat, labels):
     
 if __name__ == '__main__': 
     
+    print('running adaboost 10 fold cross validation...')
+    first_line, feature_mat, labels = load_data('breast-cancer-assignment5.txt')
+    print('breast-cancer-assignment5.txt:', len(labels))
+    mean_accuracy, std_accuracy = ten_fold_cross_validation(feature_mat, labels)
+    print('mean:', mean_accuracy, 'standard deviation:',std_accuracy)  
+    print(10*'--') 
+
+    
     
     first_line, feature_mat, labels = load_data('german-assignment5.txt')
     print('german-assignment5.txt, data size:', len(labels))
     feature_mat = to_discrete(first_line, feature_mat)
     mean_accuracy, std_accuracy = ten_fold_cross_validation(feature_mat, labels)
-    print(mean_accuracy, std_accuracy)  
+    print('mean:', mean_accuracy, 'standard deviation:',std_accuracy)  
     
     print(10*'--')    
     
-    first_line, feature_mat, labels = load_data('breast-cancer-assignment5.txt')
-    print('breast-cancer-assignment5.txt:', len(labels))
-    mean_accuracy, std_accuracy = ten_fold_cross_validation(feature_mat, labels)
-    print(mean_accuracy, std_accuracy)
-    
-
+ 
 
     

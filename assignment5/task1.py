@@ -205,19 +205,25 @@ def to_discrete(first_line, feature_mat):
     
 
 if __name__ == '__main__': 
-    first_line, feature_mat, labels = load_data('german-assignment5.txt')
-    print('german-assignment5.txt, data size:', len(labels))
-    feature_mat = to_discrete(first_line, feature_mat)
-    mean_accuracy, std_accuracy = ten_fold_cross_validation(feature_mat, labels)
-    print(mean_accuracy, std_accuracy)
-    print(10*'--')
-    
+    print('running naivebayes 10 fold cross validation')
     
     first_line, feature_mat, labels = load_data('breast-cancer-assignment5.txt')
     print('breast-cancer-assignment5.txt, data size', len(labels))
     mean_accuracy, std_accuracy = ten_fold_cross_validation(feature_mat, labels)
-    print(mean_accuracy, std_accuracy)
+    print('mean:', mean_accuracy, '\nstandard deviation:',std_accuracy) 
+    print(10*'--')    
+    
+    
+    
+    first_line, feature_mat, labels = load_data('german-assignment5.txt')
+    print('german-assignment5.txt, data size:', len(labels))
+    feature_mat = to_discrete(first_line, feature_mat)
+    mean_accuracy, std_accuracy = ten_fold_cross_validation(feature_mat, labels)
+    print('mean:', mean_accuracy, '\nstandard deviation:',std_accuracy) 
     print(10*'--')
+    
+    
+    
     
     
 '''
